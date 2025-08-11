@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scene/core/consts/assets/assets.dart';
 import 'package:scene/core/ui/navigation_bar/nav_bar_item.dart';
 import 'package:scene/features/categories/presentation/screens/category_tap.dart';
-import 'package:scene/features/home/presentation/home_tap.dart';
+import 'package:scene/features/home/screen/home_tap.dart';
 import 'package:scene/features/search/presentation/pages/search_tap.dart';
-import 'package:scene/features/watchlist/presentation/pages/watchlist_tap.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -19,7 +18,7 @@ class _MainLayoutState extends State<MainLayout> {
     HomeTap(),
     SearchTap(),
     CategoryTap(),
-    WatchlistTap(),
+    Container(),
   ];
   @override
   Widget build(BuildContext context) {

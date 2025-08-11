@@ -18,12 +18,7 @@ class CategorisedMovieList extends StatefulWidget {
 }
 
 class _CategorisedMovieListState extends State<CategorisedMovieList> {
-  final categoriesCubit = getIt.get<CategoriesCubit>();
-  @override
-  void initState() {
-    categoriesCubit.fetchCategories(widget.info.id.toString());
-    super.initState();
-  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,29 +33,32 @@ class _CategorisedMovieListState extends State<CategorisedMovieList> {
         
       ),
 
-      body: BlocBuilder<CategoriesCubit, CategoriesStates>(
-        builder: (context, state) {
-          if (state is CategoriesLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.selectedIcon),
-            );
-          } else if (state is CategoriesLoadedState) {
-            return CommonMovieList(movies: state.movies);
-          } else if (state is CategoriesErrorState) {
-            return Center(
-              child: Text(
-                state.message,textAlign: TextAlign.center,
-                style: FontManager.getRegularInterStyle(
-                  fontSize: 13.sp,
-                  
-                  color: AppColors.selectedIcon,
-                ).copyWith(height: 1.5.h,decoration: TextDecoration.none),
-              ),
-            );
-          } else {
-            return Container();
-          }
-        },
+      body: BlocProvider(
+        create: (context) =>  getIt.get<CategoriesCubit>()..fetchCategories(widget.info.id.toString()),
+        child: BlocBuilder<CategoriesCubit, CategoriesStates>(
+          builder: (context, state) {
+            if (state is CategoriesLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(color: AppColors.selectedIcon),
+              );
+            } else if (state is CategoriesLoadedState) {
+              return CommonMovieList(movies: state.movies);
+            } else if (state is CategoriesErrorState) {
+              return Center(
+                child: Text(
+                  state.message,textAlign: TextAlign.center,
+                  style: FontManager.getRegularInterStyle(
+                    fontSize: 13.sp,
+                    
+                    color: AppColors.selectedIcon,
+                  ).copyWith(height: 1.5.h,decoration: TextDecoration.none),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }
