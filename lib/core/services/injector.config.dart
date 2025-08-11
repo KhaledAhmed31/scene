@@ -1,0 +1,190 @@
+// dart format width=80
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// InjectableConfigGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i361;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:injectable/injectable.dart' as _i526;
+import 'package:scene/core/services/injector_modul.dart' as _i299;
+import 'package:scene/features/categories/data/datasources/categories_data_source.dart'
+    as _i235;
+import 'package:scene/features/categories/data/datasources/genres_data_source.dart'
+    as _i426;
+import 'package:scene/features/categories/data/repositories/categories_repo.dart'
+    as _i497;
+import 'package:scene/features/categories/data/repositories/genres_repo.dart'
+    as _i80;
+import 'package:scene/features/categories/presentation/cubit/categorized_movies/categories_cubit.dart'
+    as _i200;
+import 'package:scene/features/categories/presentation/cubit/genres/genres_cubit.dart'
+    as _i508;
+import 'package:scene/features/home/movies_sections/data/data%20source/sections_date_source.dart'
+    as _i772;
+import 'package:scene/features/home/movies_sections/data/repository/recommended_repo.dart'
+    as _i571;
+import 'package:scene/features/home/movies_sections/domain/repository/recommended_repo_interface.dart'
+    as _i112;
+import 'package:scene/features/home/movies_sections/domain/use%20cases/fetch_more_like_this_use_case.dart'
+    as _i95;
+import 'package:scene/features/home/movies_sections/domain/use%20cases/fetch_new_use_case.dart'
+    as _i329;
+import 'package:scene/features/home/movies_sections/domain/use%20cases/fetch_recommended_use_case.dart'
+    as _i545;
+import 'package:scene/features/home/movies_sections/presentation/cubit/more_like_this/more_like_this_cubit.dart'
+    as _i365;
+import 'package:scene/features/home/movies_sections/presentation/cubit/new_release/new_release_cubit.dart'
+    as _i270;
+import 'package:scene/features/home/movies_sections/presentation/cubit/recommended/recommended_cubit.dart'
+    as _i1057;
+import 'package:scene/features/home/popular/data/datasources/popular_data_source.dart'
+    as _i796;
+import 'package:scene/features/home/popular/data/repositories/popular_repo.dart'
+    as _i141;
+import 'package:scene/features/home/popular/domain/repositories/popular_repo_interface.dart'
+    as _i80;
+import 'package:scene/features/home/popular/domain/usecases/get_popular_use_case.dart'
+    as _i581;
+import 'package:scene/features/home/popular/presentation/cubit/popular_cubit.dart'
+    as _i703;
+import 'package:scene/features/movie_details/data/data%20source/movie_details_data_source.dart'
+    as _i198;
+import 'package:scene/features/movie_details/data/repository/movie_details_repo.dart'
+    as _i172;
+import 'package:scene/features/movie_details/domain/repository/movie_details_repo_interface.dart'
+    as _i423;
+import 'package:scene/features/movie_details/domain/use%20cases/get_movie_datails_use_case.dart'
+    as _i991;
+import 'package:scene/features/movie_details/presentation/cubit/movie_details_cubit.dart'
+    as _i29;
+import 'package:scene/features/search/data/datasources/search_data_source.dart'
+    as _i571;
+import 'package:scene/features/search/data/repositories/search_repo.dart'
+    as _i891;
+import 'package:scene/features/search/presentation/cubit/search_cubit.dart'
+    as _i502;
+import 'package:scene/features/watchlist/data/datasources/watchlist_local_data_source.dart'
+    as _i753;
+import 'package:scene/features/watchlist/data/datasources/watchlist_remote_data_source.dart'
+    as _i733;
+import 'package:scene/features/watchlist/data/repositories/watchlist_repo.dart'
+    as _i704;
+import 'package:scene/features/watchlist/presentation/cubit/watchlist_cubit.dart'
+    as _i725;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
+
+extension GetItInjectableX on _i174.GetIt {
+  // initializes the registration of main-scope dependencies inside of GetIt
+  Future<_i174.GetIt> init({
+    String? environment,
+    _i526.EnvironmentFilter? environmentFilter,
+  }) async {
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final registerModule = _$RegisterModule();
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => registerModule.sharedPreferences,
+      preResolve: true,
+    );
+    gh.lazySingleton<_i361.Dio>(() => registerModule.dio());
+    gh.lazySingleton<_i753.WatchlistLocalDataSource>(
+      () => _i753.WatchlistLocalDataSource(),
+    );
+    gh.lazySingleton<_i733.WatchlistDataSource>(
+      () => _i733.WatchlistDataSource(),
+    );
+    gh.factory<_i235.CategoriesDataSource>(
+      () => _i235.CategoriesDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i426.GenresDataSource>(
+      () => _i426.GenresDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i772.SectionsDateSource>(
+      () => _i772.SectionsDateSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i796.PopularDataSource>(
+      () => _i796.PopularDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i198.MovieDetailsDataSource>(
+      () => _i198.MovieDetailsDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i571.SearchDataSource>(
+      () => _i571.SearchDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i704.WatchlistRepo>(
+      () => _i704.WatchlistRepo(
+        movieDetailsDataSource: gh<_i198.MovieDetailsDataSource>(),
+        watchlistDataSource: gh<_i733.WatchlistDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i891.SearchRepo>(
+      () => _i891.SearchRepo(gh<_i571.SearchDataSource>()),
+    );
+    gh.lazySingleton<_i497.CategoriesRepo>(
+      () => _i497.CategoriesRepo(gh<_i235.CategoriesDataSource>()),
+    );
+    gh.lazySingleton<_i112.SectionsRepoInterface>(
+      () => _i571.NewAndRecommendedRepo(gh<_i772.SectionsDateSource>()),
+    );
+    gh.lazySingleton<_i80.GenresRepo>(
+      () => _i80.GenresRepo(gh<_i426.GenresDataSource>()),
+    );
+    gh.lazySingleton<_i200.CategoriesCubit>(
+      () => _i200.CategoriesCubit(gh<_i497.CategoriesRepo>()),
+    );
+    gh.factory<_i725.WatchlistCubit>(
+      () => _i725.WatchlistCubit(gh<_i704.WatchlistRepo>()),
+    );
+    gh.lazySingleton<_i80.PopularRepoInterface>(
+      () => _i141.PopularRepo(gh<_i796.PopularDataSource>()),
+    );
+    gh.lazySingleton<_i423.MovieDetailsRepoInterface>(
+      () => _i172.MovieDetailsRepo(gh<_i198.MovieDetailsDataSource>()),
+    );
+    gh.lazySingleton<_i502.SearchCubit>(
+      () => _i502.SearchCubit(gh<_i891.SearchRepo>()),
+    );
+    gh.lazySingleton<_i545.FetchRecommendedUseCase>(
+      () => _i545.FetchRecommendedUseCase(gh<_i112.SectionsRepoInterface>()),
+    );
+    gh.lazySingleton<_i991.GetMovieDatailsUseCase>(
+      () => _i991.GetMovieDatailsUseCase(gh<_i423.MovieDetailsRepoInterface>()),
+    );
+    gh.lazySingleton<_i581.GetPopularUseCase>(
+      () => _i581.GetPopularUseCase(gh<_i80.PopularRepoInterface>()),
+    );
+    gh.lazySingleton<_i95.FetchMoreLikeThisUseCase>(
+      () => _i95.FetchMoreLikeThisUseCase(gh<_i112.SectionsRepoInterface>()),
+    );
+    gh.lazySingleton<_i329.FetchNewUseCase>(
+      () => _i329.FetchNewUseCase(gh<_i112.SectionsRepoInterface>()),
+    );
+    gh.lazySingleton<_i508.GenresCubit>(
+      () => _i508.GenresCubit(gh<_i80.GenresRepo>()),
+    );
+    gh.lazySingleton<_i703.PopularCubit>(
+      () =>
+          _i703.PopularCubit(getPopularUseCase: gh<_i581.GetPopularUseCase>()),
+    );
+    gh.lazySingleton<_i365.MoreLikeThisCubit>(
+      () => _i365.MoreLikeThisCubit(gh<_i95.FetchMoreLikeThisUseCase>()),
+    );
+    gh.lazySingleton<_i1057.RecommendedCubit>(
+      () => _i1057.RecommendedCubit(gh<_i545.FetchRecommendedUseCase>()),
+    );
+    gh.lazySingleton<_i29.MovieDetailsCubit>(
+      () => _i29.MovieDetailsCubit(gh<_i991.GetMovieDatailsUseCase>()),
+    );
+    gh.lazySingleton<_i270.NewReleaseCubit>(
+      () => _i270.NewReleaseCubit(gh<_i329.FetchNewUseCase>()),
+    );
+    return this;
+  }
+}
+
+class _$RegisterModule extends _i299.RegisterModule {}
