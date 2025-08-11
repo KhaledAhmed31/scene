@@ -69,6 +69,14 @@ import 'package:scene/features/search/data/repositories/search_repo.dart'
     as _i891;
 import 'package:scene/features/search/presentation/cubit/search_cubit.dart'
     as _i502;
+import 'package:scene/features/watchlist/data/datasources/watchlist_local_data_source.dart'
+    as _i753;
+import 'package:scene/features/watchlist/data/datasources/watchlist_remote_data_source.dart'
+    as _i733;
+import 'package:scene/features/watchlist/data/repositories/watchlist_repo.dart'
+    as _i704;
+import 'package:scene/features/watchlist/presentation/cubit/watchlist_cubit.dart'
+    as _i725;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -84,6 +92,12 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio());
+    gh.lazySingleton<_i753.WatchlistLocalDataSource>(
+      () => _i753.WatchlistLocalDataSource(),
+    );
+    gh.lazySingleton<_i733.WatchlistDataSource>(
+      () => _i733.WatchlistDataSource(),
+    );
     gh.factory<_i235.CategoriesDataSource>(
       () => _i235.CategoriesDataSource(gh<_i361.Dio>()),
     );
@@ -101,6 +115,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i643.PopularDataSource>(
       () => _i643.PopularDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i704.WatchlistRepo>(
+      () => _i704.WatchlistRepo(
+        movieDetailsDataSource: gh<_i198.MovieDetailsDataSource>(),
+        watchlistDataSource: gh<_i733.WatchlistDataSource>(),
+      ),
     );
     gh.lazySingleton<_i685.PopularRepoInterface>(
       () => _i257.PopularRepo(gh<_i643.PopularDataSource>()),
@@ -122,6 +142,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i738.SectionsRepoInterface>(
       () => _i246.NewAndRecommendedRepo(gh<_i932.SectionsDateSource>()),
+    );
+    gh.factory<_i725.WatchlistCubit>(
+      () => _i725.WatchlistCubit(gh<_i704.WatchlistRepo>()),
     );
     gh.lazySingleton<_i423.MovieDetailsRepoInterface>(
       () => _i172.MovieDetailsRepo(gh<_i198.MovieDetailsDataSource>()),

@@ -2,11 +2,14 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scene/core/routing/routing_manager.dart';
 import 'package:scene/core/services/injector.dart';
 import 'package:scene/core/ui/theme/app_theme.dart';
 import 'package:scene/features/main_layout/main_layout.dart';
+import 'package:scene/features/movie_details/presentation/cubit/movie_details_cubit.dart';
+import 'package:scene/features/watchlist/presentation/cubit/watchlist_cubit.dart';
 import 'core/notifications/notification_service.dart';
 import 'firebase_options.dart';
 

@@ -11,8 +11,8 @@ class GenresList extends StatelessWidget {
   const GenresList({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt.get<GenresCubit>()..fetchGenres(),
+    return BlocProvider.value(
+      value:getIt.get<GenresCubit>()..fetchGenres(),
       child: BlocBuilder<GenresCubit, GenresState>(
         builder: (context, state) {
           if (state is GenresLoadingState) {

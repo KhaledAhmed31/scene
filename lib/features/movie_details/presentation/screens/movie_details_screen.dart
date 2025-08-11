@@ -24,11 +24,18 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  late final MovieDetailsCubit _movieDetailsCubit = getIt.get<MovieDetailsCubit>();
+  @override
+  void initState() {
+    _movieDetailsCubit.fetchMovieDetails(widget.movieId.toString());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-   
-    return BlocProvider(
-      create: (context) => getIt.get<MovieDetailsCubit>()..fetchMovieDetails(widget.movieId.toString()),
+    return BlocProvider.value(
+      value: getIt.get<MovieDetailsCubit>(),
+
       child: BlocConsumer<MovieDetailsCubit, MovieDetailsState>(
         builder: (BuildContext context, state) {
           if (state is MovieDetailsLoadingState) {
@@ -149,6 +156,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       style: FontManager.getRegularInterStyle(
                                         fontSize: 12.sp,
                                         color: AppColors.genresCardText,
+                                        height: 2.h,
                                       ),
                                     ),
                                     Text(
@@ -156,6 +164,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       style: FontManager.getRegularInterStyle(
                                         fontSize: 12.sp,
                                         color: AppColors.genresCardText,
+                                        height: 2.h,
                                       ),
                                     ),
                                     Text(
@@ -163,6 +172,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       style: FontManager.getRegularInterStyle(
                                         fontSize: 12.sp,
                                         color: AppColors.genresCardText,
+                                        height: 2.h,
                                       ),
                                     ),
                                     Row(
@@ -177,7 +187,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                                   FontManager.getRegularInterStyle(
                                                     fontSize: 12.sp,
                                                     color:
-                                                        AppColors.genresCardText,
+                                                        AppColors
+                                                            .genresCardText,
+                                                    height: 2.h,
                                                   ),
                                             ),
                                             SizedBox(width: 5.w),
@@ -190,10 +202,12 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                         ),
                                         Text(
                                           'Votes: ${movieDetails.voteCount ?? 0}',
-                                          style: FontManager.getRegularInterStyle(
-                                            fontSize: 12.sp,
-                                            color: AppColors.genresCardText,
-                                          ),
+                                          style:
+                                              FontManager.getRegularInterStyle(
+                                                fontSize: 12.sp,
+                                                color: AppColors.genresCardText,
+                                                height: 2.h,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -226,7 +240,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 style: FontManager.getSemiBoldInterStyle(
                   fontSize: 15.sp,
                   color: AppColors.selectedIcon,
-                ).copyWith(height: 1.5, decoration: TextDecoration.none),
+                ).copyWith(height: 2, decoration: TextDecoration.none),
               ),
             );
           }

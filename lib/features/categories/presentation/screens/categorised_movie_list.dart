@@ -18,7 +18,12 @@ class CategorisedMovieList extends StatefulWidget {
 }
 
 class _CategorisedMovieListState extends State<CategorisedMovieList> {
-  
+  late final CategoriesCubit _categoriesCubit = getIt.get<CategoriesCubit>();
+  @override
+  void initState() {
+    _categoriesCubit.fetchCategories(widget.info.id.toString());
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +38,8 @@ class _CategorisedMovieListState extends State<CategorisedMovieList> {
         
       ),
 
-      body: BlocProvider(
-        create: (context) =>  getIt.get<CategoriesCubit>()..fetchCategories(widget.info.id.toString()),
+      body: BlocProvider.value(
+        value: _categoriesCubit,
         child: BlocBuilder<CategoriesCubit, CategoriesStates>(
           builder: (context, state) {
             if (state is CategoriesLoadingState) {
