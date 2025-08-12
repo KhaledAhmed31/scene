@@ -8,9 +8,9 @@ import 'package:scene/core/consts/assets/assets.dart';
 import 'package:scene/core/consts/colors/app_colors.dart';
 import 'package:scene/core/consts/enums/app_enums.dart';
 import 'package:scene/core/font/font_manager.dart';
-import 'package:scene/core/movies/entity/common_response_entity.dart';
 import 'package:scene/core/movies/entity/movie_card_entity.dart';
 import 'package:scene/core/routing/routing_paths.dart';
+import 'package:scene/features/watchlist/data/models/watchlist_model.dart';
 import 'package:scene/features/watchlist/presentation/cubit/watchlist_cubit.dart';
 
 class MovieCard extends StatefulWidget {
@@ -34,6 +34,8 @@ class _MovieCardState extends State<MovieCard> {
   bool get isOrdinaryCard => widget.movieCardType == MovieCardType.ordinary;
   @override
   Widget build(BuildContext context) {
+  final WatchlistCubit cubit=BlocProvider.of<WatchlistCubit>(context);
+  isAddedToWishList=cubit.watchlist!.movies.any((element) => element.id==widget.movieCardEntity.id);
     return GestureDetector(
       onTap: () {
         context.push(
@@ -126,18 +128,15 @@ class _MovieCardState extends State<MovieCard> {
           ),
           Positioned(
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  BlocProvider.of<WatchlistCubit>(context).addToWatchlist(
-                    CommonItemEntity(
-                      id: widget.movieCardEntity.id,
-                      title: widget.movieCardEntity.title,
-                      releaseDate: widget.movieCardEntity.releaseDate,
-                      backdropPath: widget.movieCardEntity.backdropPath,
-                    ),
+              onTap: () async{
+                
+                 (isAddedToWishList)?await cubit.removeFromWatchlist(WatchlistItemModel(title: widget.movieCardEntity.title??'', backdropPath: widget.movieCardEntity.backdropPath??'', releaseDate: widget.movieCardEntity.releaseDate??'',id:widget.movieCardEntity.id??0)) :await cubit.addToWatchlist(
+                    WatchlistItemModel(title: widget.movieCardEntity.title??'', backdropPath: widget.movieCardEntity.backdropPath??'', releaseDate: widget.movieCardEntity.releaseDate??'',id:widget.movieCardEntity.id??0),
                   );
                   isAddedToWishList = !isAddedToWishList;
-                });
+                  setState(() {
+                    
+                  });
               },
               child:
                   isAddedToWishList

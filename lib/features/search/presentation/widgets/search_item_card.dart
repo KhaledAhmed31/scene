@@ -24,7 +24,6 @@ class CommonMovieListItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0.r),
-
               child:
                   (searchEntity.backdropPath != null)
                       ? CachedNetworkImage(

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -19,7 +18,6 @@ class PopularCubit extends Cubit<PopularState> {
     var result = await getPopularUseCase();
     if (result.$1 == null) {
       posters = result.$2;
-      log("Popular movies fetched successfully");
       emit(PopularLoadedState());
     } else {
       emit(PopularErrorState(result.$1!.message));

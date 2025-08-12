@@ -108,8 +108,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 width: 213.w,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
       
                                   children: [
                                     SizedBox(height: 10.h),
@@ -138,7 +137,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       physics: NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                     ),
-                                    SizedBox(height: 10.h),
                                     Text(
                                       movieDetails.tagline ??
                                           'No tagline Available',
@@ -148,15 +146,12 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                         fontSize: 13.sp,
                                         color: AppColors.genresCardText,
                                       ),
-                                    ),
-                                    const Spacer(),
-      
+                                    ),      
                                     Text(
                                       'Original Country: ${movieDetails.originCountry ?? 'N/A'}',
                                       style: FontManager.getRegularInterStyle(
                                         fontSize: 12.sp,
                                         color: AppColors.genresCardText,
-                                        height: 2.h,
                                       ),
                                     ),
                                     Text(
@@ -164,7 +159,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       style: FontManager.getRegularInterStyle(
                                         fontSize: 12.sp,
                                         color: AppColors.genresCardText,
-                                        height: 2.h,
                                       ),
                                     ),
                                     Text(
@@ -172,7 +166,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       style: FontManager.getRegularInterStyle(
                                         fontSize: 12.sp,
                                         color: AppColors.genresCardText,
-                                        height: 2.h,
                                       ),
                                     ),
                                     Row(
@@ -189,7 +182,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                                     color:
                                                         AppColors
                                                             .genresCardText,
-                                                    height: 2.h,
                                                   ),
                                             ),
                                             SizedBox(width: 5.w),
@@ -206,7 +198,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                               FontManager.getRegularInterStyle(
                                                 fontSize: 12.sp,
                                                 color: AppColors.genresCardText,
-                                                height: 2.h,
                                               ),
                                         ),
                                       ],

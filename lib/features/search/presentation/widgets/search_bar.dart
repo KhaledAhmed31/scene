@@ -46,6 +46,12 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             showClearIcon = false;
           });
         },
+        onSubmitted: (value) {
+          FocusScope.of(context).unfocus();
+          setState(() {
+            showClearIcon = false;
+          });
+        },
         onTap: () {
           setState(() {
             if (_controller.text.isNotEmpty) {

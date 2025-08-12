@@ -1,24 +1,21 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:scene/core/errors/remote/remote_error_handler.dart';
-import 'package:scene/core/movies/entity/common_response_entity.dart';
 import 'package:scene/features/watchlist/data/datasources/watchlist_local_data_source.dart';
 import 'package:scene/features/watchlist/data/models/watchlist_model.dart';
 
 @lazySingleton
 class WatchlistDataSource {
-  static DocumentReference<List<WatchlistItemModel>> watchlistDocument =
+  static DocumentReference<WatchlistModel> watchlistDocument =
       getWatchlistDocument();
 
-
-  Future<List<WatchlistItemModel>> removeFromWatchlist(CommonItemEntity movie) async {
-    String? userId = WatchlistLocalDataSource.getUserId();
-
+  Future<WatchlistModel> removeFromWatchlist(WatchlistItemModel movie) async {
     try {
-      DocumentReference<List<WatchlistItemModel>> doc = getUserCollection().doc(
-        userId,
-      );
-      await doc.update({"movies": FieldValue.arrayRemove([movie.toJson()])});
+      DocumentReference<WatchlistModel> doc = getWatchlistDocument();
+      await doc.update({
+        "movies": FieldValue.arrayRemove([movie.toJson()]),
+      });
       return await getWatchlist();
     } catch (e) {
       String message = e.toString();
@@ -29,14 +26,11 @@ class WatchlistDataSource {
     }
   }
 
-  Future<List<WatchlistItemModel>> getWatchlist() async {
-    String? userId = WatchlistLocalDataSource.getUserId();
-
+  Future<WatchlistModel> getWatchlist() async {
     try {
-      DocumentReference<List<WatchlistItemModel>> doc = getUserCollection().doc(
-        userId
-      );
-      return await doc.get().then((value) => value.data()!);
+      DocumentReference<WatchlistModel> doc = getWatchlistDocument();
+      DocumentSnapshot<WatchlistModel> snapshot = await doc.get();
+      return snapshot.data() ?? WatchlistModel(movies: []);
     } catch (e) {
       String message = e.toString();
       if (e is FirebaseException) {
@@ -46,11 +40,10 @@ class WatchlistDataSource {
     }
   }
 
-  Future<List<WatchlistItemModel>> addToWatchlist(
-    CommonItemEntity movie,
-  ) async {
-    try {
-      await watchlistDocument.update({
+  Future<WatchlistModel> addToWatchlist(WatchlistItemModel movie) async {
+   try {
+      DocumentReference<WatchlistModel> doc = getWatchlistDocument();
+      await doc.update({
         "movies": FieldValue.arrayUnion([movie.toJson()]),
       });
       return await getWatchlist();
@@ -63,33 +56,25 @@ class WatchlistDataSource {
     }
   }
 
-  static DocumentReference<List<WatchlistItemModel>> getWatchlistDocument() {
+  static DocumentReference<WatchlistModel> getWatchlistDocument(){
     String? userId = WatchlistLocalDataSource.getUserId();
 
     if (userId == null || userId.isEmpty) {
-      DocumentReference<List<WatchlistItemModel>> doc =
-          getUserCollection().doc();
+      DocumentReference<WatchlistModel> doc = getUserCollection().doc()..set(WatchlistModel(movies: []));
       WatchlistLocalDataSource.saveUserId(doc.id);
       return doc;
     }
     return getUserCollection().doc(userId);
   }
 
-  static CollectionReference<List<WatchlistItemModel>> getUserCollection() {
+  static CollectionReference<WatchlistModel> getUserCollection() {
     try {
       return FirebaseFirestore.instance
           .collection("users")
-          .withConverter(
+          .withConverter<WatchlistModel>(
             fromFirestore:
-                (snapshot, options) =>
-                    snapshot
-                        .data()!["movies"]
-                        .map((e) => WatchlistItemModel.fromJson(e))
-                        .toList(),
-            toFirestore:
-                (value, options) => {
-                  'movies': value.map((e) => e.toJson()).toList(),
-                },
+                (snapshot, _) => WatchlistModel.fromJson(snapshot.data()!),
+            toFirestore: (watchlistModel, _) => watchlistModel.toJson(),
           );
     } catch (e) {
       String message = e.toString();

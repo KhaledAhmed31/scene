@@ -104,17 +104,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i426.GenresDataSource>(
       () => _i426.GenresDataSource(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i198.MovieDetailsDataSource>(
-      () => _i198.MovieDetailsDataSource(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i571.SearchDataSource>(
-      () => _i571.SearchDataSource(gh<_i361.Dio>()),
-    );
     gh.lazySingleton<_i932.SectionsDateSource>(
       () => _i932.SectionsDateSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i643.PopularDataSource>(
       () => _i643.PopularDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i198.MovieDetailsDataSource>(
+      () => _i198.MovieDetailsDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i571.SearchDataSource>(
+      () => _i571.SearchDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i704.WatchlistRepo>(
       () => _i704.WatchlistRepo(

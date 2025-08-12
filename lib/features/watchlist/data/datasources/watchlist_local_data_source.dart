@@ -11,4 +11,5 @@ class WatchlistLocalDataSource {
   static String? getUserId() {
     return prefs.getString("userId");
   }
+  static void deleteUserID()=>prefs.remove("userId");
 }

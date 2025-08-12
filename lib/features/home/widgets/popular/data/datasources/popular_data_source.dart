@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +14,6 @@ class PopularDataSource {
   Future<PopularMoviesResponse> getPopularMovies() async {
     try {
       Response response = await _dio.get(ApiConstants.popularMoviesEndpoint);
-      log("try getPopularMovies");
       return PopularMoviesResponse.fromJson(response.data);
     } catch (e) {
       String message = e.toString();

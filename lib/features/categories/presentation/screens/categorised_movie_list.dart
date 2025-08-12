@@ -24,18 +24,24 @@ class _CategorisedMovieListState extends State<CategorisedMovieList> {
     _categoriesCubit.fetchCategories(widget.info.id.toString());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.info.name??'genre',
+          widget.info.name ?? 'genre',
           style: FontManager.getRegularInterStyle(
             fontSize: 20.sp,
             color: Colors.white,
           ),
         ),
-        
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
 
       body: BlocProvider.value(
@@ -51,12 +57,13 @@ class _CategorisedMovieListState extends State<CategorisedMovieList> {
             } else if (state is CategoriesErrorState) {
               return Center(
                 child: Text(
-                  state.message,textAlign: TextAlign.center,
+                  state.message,
+                  textAlign: TextAlign.center,
                   style: FontManager.getRegularInterStyle(
                     fontSize: 13.sp,
-                    
+
                     color: AppColors.selectedIcon,
-                  ).copyWith(height: 1.5.h,decoration: TextDecoration.none),
+                  ).copyWith(height: 1.5.h, decoration: TextDecoration.none),
                 ),
               );
             } else {
