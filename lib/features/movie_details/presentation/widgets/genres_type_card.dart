@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scene/core/consts/colors/app_colors.dart';
 import 'package:scene/core/font/font_manager.dart';
 
-class GenresCard extends StatelessWidget {
-  const GenresCard({super.key, required this.title});
+class GenresTypeCard extends StatelessWidget {
+  const GenresTypeCard({super.key, required this.title});
   final String title;
   @override
   Widget build(BuildContext context) {

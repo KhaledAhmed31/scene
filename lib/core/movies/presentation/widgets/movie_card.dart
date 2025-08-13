@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +14,7 @@ import 'package:scene/core/movies/entity/movie_card_entity.dart';
 import 'package:scene/core/routing/routing_paths.dart';
 import 'package:scene/features/watchlist/data/models/watchlist_model.dart';
 import 'package:scene/features/watchlist/presentation/cubit/watchlist_cubit.dart';
+import 'package:scene/features/watchlist/presentation/cubit/watchlist_state.dart';
 
 class MovieCard extends StatefulWidget {
   const MovieCard({
@@ -34,14 +37,18 @@ class _MovieCardState extends State<MovieCard> {
   bool get isOrdinaryCard => widget.movieCardType == MovieCardType.ordinary;
   @override
   Widget build(BuildContext context) {
-  final WatchlistCubit cubit=BlocProvider.of<WatchlistCubit>(context);
-  isAddedToWishList=cubit.watchlist!.movies.any((element) => element.id==widget.movieCardEntity.id);
+    final WatchlistCubit cubit = BlocProvider.of<WatchlistCubit>(context);
+    isAddedToWishList = cubit.watchlist!.movies.any(
+      (element) => element.id == widget.movieCardEntity.id,
+    );
     return GestureDetector(
       onTap: () {
-        context.push(
-          RoutingPaths.movieDetails,
-          extra: widget.movieCardEntity.id,
-        );
+        if (widget.movieCardType != MovieCardType.details) {
+          context.push(
+            RoutingPaths.movieDetails,
+            extra: widget.movieCardEntity.id,
+          );
+        }
       },
       child: Stack(
         children: [
@@ -70,7 +77,8 @@ class _MovieCardState extends State<MovieCard> {
                     ),
                   ),
 
-                  (widget.movieCardType == MovieCardType.popular)
+                  (widget.movieCardType == MovieCardType.popular ||
+                          widget.movieCardType == MovieCardType.details)
                       ? SizedBox.shrink()
                       : (widget.sectionType != SectionType.newRelease)
                       ? SizedBox(
@@ -126,31 +134,52 @@ class _MovieCardState extends State<MovieCard> {
               ),
             ),
           ),
-          Positioned(
-            child: GestureDetector(
-              onTap: () async{
-                
-                 (isAddedToWishList)?await cubit.removeFromWatchlist(WatchlistItemModel(title: widget.movieCardEntity.title??'', backdropPath: widget.movieCardEntity.backdropPath??'', releaseDate: widget.movieCardEntity.releaseDate??'',id:widget.movieCardEntity.id??0)) :await cubit.addToWatchlist(
-                    WatchlistItemModel(title: widget.movieCardEntity.title??'', backdropPath: widget.movieCardEntity.backdropPath??'', releaseDate: widget.movieCardEntity.releaseDate??'',id:widget.movieCardEntity.id??0),
-                  );
-                  isAddedToWishList = !isAddedToWishList;
-                  setState(() {
-                    
-                  });
-              },
-              child:
-                  isAddedToWishList
-                      ? SvgPicture.asset(
-                        Assets.addedToWatchlistIcon,
-                        width: 27.w,
-                        height: 36.h,
+          BlocBuilder<WatchlistCubit, WatchlistState>(
+            builder:(context, state) {
+              isAddedToWishList = cubit.watchlist!.movies.any(
+      (element) => element.id == widget.movieCardEntity.id,
+    );
+              return Positioned(
+              child: GestureDetector(
+                onTap: () async {
+                  log('button pressed');
+            
+                  (isAddedToWishList)
+                      ? await cubit.removeFromWatchlist(
+                        WatchlistItemModel(
+                          title: widget.movieCardEntity.title ?? '',
+                          backdropPath: widget.movieCardEntity.backdropPath ?? '',
+                          releaseDate: widget.movieCardEntity.releaseDate ?? '',
+                          id: widget.movieCardEntity.id ?? 0,
+                        ),
                       )
-                      : SvgPicture.asset(
-                        Assets.addToWatchlistIcon,
-                        width: 27.w,
-                        height: 36.h,
-                      ),
-            ),
+                      : await cubit.addToWatchlist(
+                        WatchlistItemModel(
+                          title: widget.movieCardEntity.title ?? '',
+                          backdropPath: widget.movieCardEntity.backdropPath ?? '',
+                          releaseDate: widget.movieCardEntity.releaseDate ?? '',
+                          id: widget.movieCardEntity.id ?? 0,
+                        ),
+                      );
+                  setState(() {
+                    isAddedToWishList = !isAddedToWishList;
+                  });
+                },
+                child:
+                    isAddedToWishList
+                        ? SvgPicture.asset(
+                          Assets.addedToWatchlistIcon,
+                          width: 27.w,
+                          height: 36.h,
+                        )
+                        : SvgPicture.asset(
+                          Assets.addToWatchlistIcon,
+                          width: 27.w,
+                          height: 36.h,
+                        ),
+              ),
+            );
+            },
           ),
         ],
       ),

@@ -13,7 +13,7 @@ import 'package:scene/core/services/injector.dart';
 import 'package:scene/features/home/widgets/movies_sections/presentation/more_like_this_section.dart';
 import 'package:scene/features/movie_details/presentation/cubit/movie_details_cubit.dart';
 import 'package:scene/features/movie_details/presentation/cubit/movie_details_states.dart';
-import 'package:scene/features/movie_details/presentation/widgets/genres_card.dart';
+import 'package:scene/features/movie_details/presentation/widgets/genres_type_card.dart';
 import 'package:scene/features/movie_details/presentation/widgets/movie_images_slider.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
@@ -96,10 +96,14 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             spacing: 15.w,
                             children: [
                               MovieCard(
-                                movieCardType: MovieCardType.popular,
+                                movieCardType: MovieCardType.details,
                                 movieCardEntity: MovieEntity(
                                   id: widget.movieId,
                                   posterPath: movieDetails.posterPath ?? '',
+                                  backdropPath:
+                                      movieDetails.backdropPath ?? '',
+                                  title: movieDetails.title ?? '',
+                                  releaseDate: movieDetails.releaseDate ?? '',
                                 ),
                                 size: (129.w, 199.h),
                               ),
@@ -122,7 +126,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                             mainAxisExtent: 30.h,
                                           ),
                                       itemBuilder: (context, index) {
-                                        return GenresCard(
+                                        return GenresTypeCard(
                                           title:
                                               (state
                                                       .movieDetails

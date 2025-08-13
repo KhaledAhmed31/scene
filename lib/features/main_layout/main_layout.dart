@@ -29,9 +29,9 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
-      body: BlocBuilder<WatchlistCubit, WatchlistState>(
+      body: BlocBuilder<WatchlistCubit,WatchlistState>(
         builder: (context, state) {
-          if (state is WatchlistLoadingState&&BlocProvider.of<WatchlistCubit>(context).watchlist==null) {
+          if (BlocProvider.of<WatchlistCubit>(context).watchlist == null) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.selectedIcon),
             );
@@ -57,3 +57,17 @@ class _MainLayoutState extends State<MainLayout> {
     );
   }
 }
+
+
+// BlocBuilder<WatchlistCubit, WatchlistState>(
+//         builder: (context, state) {
+//           if (state is WatchlistLoadingState &&
+//               BlocProvider.of<WatchlistCubit>(context).watchlist == null) {
+//             return const Center(
+//               child: CircularProgressIndicator(color: AppColors.selectedIcon),
+//             );
+//           } else {
+//             return IndexedStack(index: _selectedIndex, children: _pages);
+//           }
+//         },
+//       ),

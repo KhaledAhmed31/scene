@@ -33,8 +33,13 @@ class _MoreLikeThisSectionState extends State<MoreLikeThisSection> {
         },
         builder: (context, state) {
           if (state is MoreLikeThisLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.selectedIcon),
+            return Container(
+              decoration: BoxDecoration(color: AppColors.gray),
+              width: double.infinity,
+              height: 236.h,
+              child: const Center(
+                child: CircularProgressIndicator(color: AppColors.selectedIcon),
+              ),
             );
           } else if (state is MoreLikeThisLoadedState) {
             List<SectionsEntity> movies =

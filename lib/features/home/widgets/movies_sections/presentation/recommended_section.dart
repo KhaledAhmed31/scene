@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scene/core/consts/colors/app_colors.dart';
 import 'package:scene/core/consts/enums/app_enums.dart';
 import 'package:scene/features/home/widgets/movies_sections/domain/entity/recommended_entity.dart';
@@ -21,8 +22,13 @@ class RecommendedSection extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is RecommendedLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColors.selectedIcon),
+          return Container(
+            decoration: BoxDecoration(color: AppColors.gray),
+            width: double.infinity,
+            height: 236.h,
+            child: const Center(
+              child: CircularProgressIndicator(color: AppColors.selectedIcon),
+            ),
           );
         } else if (state is RecommendedLoadedState) {
           List<SectionsEntity> movies =

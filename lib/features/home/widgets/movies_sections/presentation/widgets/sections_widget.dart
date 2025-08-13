@@ -18,10 +18,10 @@ class SectionsWidget extends StatelessWidget {
   final SectionType sectionType;
   @override
   Widget build(BuildContext context) {
-    bool isRxtraHeight = sectionType != SectionType.newRelease;
+    bool isExtraHeight = sectionType != SectionType.newRelease;
 
     return Container(
-      height: (isRxtraHeight) ? 236.h : 187.h,
+      height: (isExtraHeight) ? 236.h : 187.h,
 
       decoration: BoxDecoration(color: AppColors.gray),
       width: double.infinity,

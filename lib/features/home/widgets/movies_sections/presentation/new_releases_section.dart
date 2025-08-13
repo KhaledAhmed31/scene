@@ -23,8 +23,13 @@ class NewReleasesSection extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is NewReleaseLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColors.selectedIcon),
+          return Container(
+            decoration: BoxDecoration(color: AppColors.gray),
+            width: double.infinity,
+            height: 187.h,
+            child: const Center(
+              child: CircularProgressIndicator(color: AppColors.selectedIcon),
+            ),
           );
         } else if (state is NewReleaseLoadedState) {
           List<SectionsEntity> movies =

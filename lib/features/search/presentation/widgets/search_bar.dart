@@ -39,6 +39,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       width: 343.w,
       child: TextField(
         autofocus: false,
+        canRequestFocus: false,
         keyboardType: TextInputType.text,
         onTapOutside: (event) {
           FocusScope.of(context).unfocus();
