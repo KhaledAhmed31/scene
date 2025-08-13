@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -19,16 +18,18 @@ class CustomSearchBar extends StatefulWidget {
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
   late final TextEditingController _controller;
-  bool showClearIcon = false;
+  late FocusNode focusNode;
   @override
   void initState() {
     _controller = TextEditingController();
+    focusNode = FocusNode();
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -39,41 +40,24 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       width: 343.w,
       child: TextField(
         autofocus: false,
-        canRequestFocus: false,
+        focusNode: focusNode,
         keyboardType: TextInputType.text,
         onTapOutside: (event) {
-          FocusScope.of(context).unfocus();
-          setState(() {
-            showClearIcon = false;
-          });
+          focusNode.unfocus();
+          setState(() {});
         },
         onSubmitted: (value) {
-          FocusScope.of(context).unfocus();
-          setState(() {
-            showClearIcon = false;
-          });
+          focusNode.unfocus();
+          setState(() {});
         },
         onTap: () {
-          setState(() {
-            if (_controller.text.isNotEmpty) {
-              showClearIcon = true;
-            }
-          });
+          setState(() {});
         },
 
         onChanged: (value) async {
-          BlocProvider.of<SearchCubit>(
-            context,
-          ).searchMovies(value).then((v) => log(value));
-          if (value.isNotEmpty) {
-            setState(() {
-              showClearIcon = true;
-            });
-          } else {
-            setState(() {
-              showClearIcon = false;
-            });
-          }
+          BlocProvider.of<SearchCubit>(context).searchMovies(value);
+
+          setState(() {});
         },
         controller: _controller,
         cursorColor: AppColors.selectedIcon,
@@ -86,12 +70,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         selectionWidthStyle: BoxWidthStyle.max,
         decoration: InputDecoration(
           suffixIcon:
-              (showClearIcon)
+              (_controller.text.isNotEmpty && focusNode.hasFocus)
                   ? GestureDetector(
                     onTap: () {
                       setState(() {
                         _controller.clear();
-                        showClearIcon = false;
                         BlocProvider.of<SearchCubit>(context).searchMovies("");
                       });
                     },

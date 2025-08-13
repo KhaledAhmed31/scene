@@ -135,50 +135,54 @@ class _MovieCardState extends State<MovieCard> {
             ),
           ),
           BlocBuilder<WatchlistCubit, WatchlistState>(
-            builder:(context, state) {
+            builder: (context, state) {
               isAddedToWishList = cubit.watchlist!.movies.any(
-      (element) => element.id == widget.movieCardEntity.id,
-    );
+                (element) => element.id == widget.movieCardEntity.id,
+              );
               return Positioned(
-              child: GestureDetector(
-                onTap: () async {
-                  log('button pressed');
-            
-                  (isAddedToWishList)
-                      ? await cubit.removeFromWatchlist(
-                        WatchlistItemModel(
-                          title: widget.movieCardEntity.title ?? '',
-                          backdropPath: widget.movieCardEntity.backdropPath ?? '',
-                          releaseDate: widget.movieCardEntity.releaseDate ?? '',
-                          id: widget.movieCardEntity.id ?? 0,
-                        ),
-                      )
-                      : await cubit.addToWatchlist(
-                        WatchlistItemModel(
-                          title: widget.movieCardEntity.title ?? '',
-                          backdropPath: widget.movieCardEntity.backdropPath ?? '',
-                          releaseDate: widget.movieCardEntity.releaseDate ?? '',
-                          id: widget.movieCardEntity.id ?? 0,
-                        ),
-                      );
-                  setState(() {
-                    isAddedToWishList = !isAddedToWishList;
-                  });
-                },
-                child:
-                    isAddedToWishList
-                        ? SvgPicture.asset(
-                          Assets.addedToWatchlistIcon,
-                          width: 27.w,
-                          height: 36.h,
+                child: GestureDetector(
+                  onTap: () async {
+                    log('button pressed');
+
+                    (isAddedToWishList)
+                        ? await cubit.removeFromWatchlist(
+                          WatchlistItemModel(
+                            title: widget.movieCardEntity.title ?? '',
+                            backdropPath:
+                                widget.movieCardEntity.backdropPath ?? '',
+                            releaseDate:
+                                widget.movieCardEntity.releaseDate ?? '',
+                            id: widget.movieCardEntity.id ?? 0,
+                          ),
                         )
-                        : SvgPicture.asset(
-                          Assets.addToWatchlistIcon,
-                          width: 27.w,
-                          height: 36.h,
-                        ),
-              ),
-            );
+                        : await cubit.addToWatchlist(
+                          WatchlistItemModel(
+                            title: widget.movieCardEntity.title ?? '',
+                            backdropPath:
+                                widget.movieCardEntity.backdropPath ?? '',
+                            releaseDate:
+                                widget.movieCardEntity.releaseDate ?? '',
+                            id: widget.movieCardEntity.id ?? 0,
+                          ),
+                        );
+                    setState(() {
+                      isAddedToWishList = !isAddedToWishList;
+                    });
+                  },
+                  child:
+                      isAddedToWishList
+                          ? SvgPicture.asset(
+                            Assets.addedToWatchlistIcon,
+                            width: 27.w,
+                            height: 36.h,
+                          )
+                          : SvgPicture.asset(
+                            Assets.addToWatchlistIcon,
+                            width: 27.w,
+                            height: 36.h,
+                          ),
+                ),
+              );
             },
           ),
         ],
